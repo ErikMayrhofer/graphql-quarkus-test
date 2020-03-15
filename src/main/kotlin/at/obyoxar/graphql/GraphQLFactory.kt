@@ -13,8 +13,9 @@ import javax.inject.Inject
 
 @ApplicationScoped
 class GraphQLFactory {
+
     @Inject
-    lateinit var helloDataFetcher: HelloDataFetcher
+    lateinit var runtimeWiring: RuntimeWiring
 
     @Produces
     fun getGraphQL(): GraphQL {
@@ -27,12 +28,6 @@ class GraphQLFactory {
         typeRegistry.merge(schemaParser.parse(BufferedReader(InputStreamReader(
                 javaClass.getResourceAsStream("/schema.graphqls")
         ))))
-
-        // Create the runtime wiring.
-        val runtimeWiring = RuntimeWiring.newRuntimeWiring()
-                .type("Query") { typeWiring -> typeWiring
-                        .dataFetcher("hello", helloDataFetcher) }
-                .build()
 
         // Create the executable schema.
         val graphQLSchema = schemaGenerator.makeExecutableSchema(typeRegistry, runtimeWiring)

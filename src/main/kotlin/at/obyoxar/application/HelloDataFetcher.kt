@@ -1,4 +1,4 @@
-package at.obyoxar.graphql
+package at.obyoxar.application
 
 import graphql.schema.DataFetcher
 import graphql.schema.DataFetchingEnvironment
